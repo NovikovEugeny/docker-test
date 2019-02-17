@@ -1,0 +1,30 @@
+version: '3.6'
+
+services:
+
+  spring-boot-jpa-app:
+    image: spring-boot-jpa-image
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 5000:8088
+    depends_on:
+      - db
+    volumes:
+      - /data/spring-boot-app
+
+  db:
+    image: mysql:latest
+    volumes:
+      - ./database:/var/lib/mysql #on linux it must work
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=devroot1996
+
+      # start docker toolbox, after that you can use bash
+      # winpty docker exec -it 9ca69b3c93b4 //bin//sh - go to box
+      # or
+      # winpty docker-compose exec service-name bash
+      # mysql -u root -p   #to go to mysql client to search data in db
